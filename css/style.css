@@ -1,0 +1,45 @@
+.card {
+    height: 325px;
+}
+.card .card-image img,
+.img-logo{
+    height: 200px;
+    width: 100%;
+    padding: 10px;
+}
+div#info-liga,
+div#table-standing,
+div#info-team {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, .5);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 50px;
+}
+div#table-standing .btn-small{
+    display: inline-flex;
+}
+div#table-match {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, .5);
+    border-radius: 5px;
+    margin-bottom: 50px;
+    padding: 20px 10px;
+}
+.group-name {
+    padding: 5px 20px;
+}
+div#matches {
+    word-break: break-word;
+}
+
+@media screen and (max-width: 400px) {
+    nav .brand-logo{
+        font-size: 1.5rem;
+    }
+    #table-match h5 {
+        font-size: 1rem;
+    }
+    #table-match h4 {
+        font-size: 1.25rem;
+        margin: 20px auto;
+    }
+}
