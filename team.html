@@ -43,16 +43,27 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const item = getTeam();
-
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id");
+            const isFromSaved = urlParams.get("saved");
             const saveBtn = document.querySelector("#save");
-            saveBtn.addEventListener("click", () => {
-                console.log("Clicked");
-                item.then(team => {
-                    console.log(team);
-                    saveForLater(team);
+
+            if(isFromSaved){
+                getSavedTeamId(id);
+
+                saveBtn.style.display = "none";
+            } else {
+                const item = getTeam();
+
+                saveBtn.addEventListener("click", () => {
+                    console.log("Clicked");
+                    item.then(team => {
+                        console.log(team);
+                        saveForLater(team);
+                    })
                 })
-            })
+            }
+            
         })
     </script>
 </body>

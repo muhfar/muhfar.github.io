@@ -1,0 +1,29 @@
+{
+  "name": "pwa-football",
+  "version": "1.0.0",
+  "description": "DICODING PWA Submission 2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhfar/PWA-Football.git"
+  },
+  "keywords": [
+    "PWA",
+    "NPM",
+    "Materialize CSS",
+    "Football",
+    "Schedule"
+  ],
+  "author": "Muhammad Farhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhfar/PWA-Football/issues"
+  },
+  "homepage": "https://github.com/muhfar/PWA-Football#readme",
+  "devDependencies": {
+    "web-push": "^3.4.4"
+  }
+}

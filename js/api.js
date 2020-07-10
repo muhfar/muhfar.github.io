@@ -24,10 +24,14 @@ const status = response => {
 const json = response => {
     return response.json();
 }
-
+const showOfflineMessage = () => {
+    let offlineElm = `<div id="error-page">
+    <h5>Oops, Anda sedang offline dan konten yang diminta belum tersimpan pada cache.</h5>
+    <p>Pastikan koneksi anda terhubung.</p>
+    </div`;
+    document.querySelector("#body-content").innerHTML = offlineElm;
+}
 const showErrorMessage = error => {
-    // let errorElm = `<div id="error-page"><h5>Konten yang diminta belum tersimpan pada cache</h5></div`;
-    // document.querySelector("#body-content").innerHTML = errorElm;
     console.log(error);
 }
 //Content Competitions
@@ -59,10 +63,12 @@ const loadCompetition = responseJSON => {
 }
 //Endpoint All Competitions
 const getCompetitions = () => {
+    let dataInCache = false;
     if ("caches" in window) {
         caches.match(base_url+"competitions/?plan=TIER_ONE")
         .then(response => {
             if (response) {
+                dataInCache = true;
                 json(response)
                 .then(loadCompetition)
             }
@@ -76,10 +82,17 @@ const getCompetitions = () => {
     .then(status)
     .then(json)
     .then(loadCompetition)
-    .catch(showErrorMessage)
+    .catch(error => {
+        if (!navigator.online && !dataInCache) {
+            console.log("Hello")
+            showOfflineMessage();
+        }
+        showErrorMessage(error);
+    })
 }
 //Endpoint Standing Competition
 const getStandings = () => {
+    let dataInCache = false;
     const urlParams = new URLSearchParams(window.location.search);
     const idParam = urlParams.get("id");
 
@@ -101,10 +114,17 @@ const getStandings = () => {
     .then(status)
     .then(json)
     .then(contentStanding)
-    .catch(showErrorMessage)
+    .catch(error => {
+        if (!navigator.online && !dataInCache) {
+            console.log("Hello")
+            showOfflineMessage();
+        }
+        showErrorMessage(error);
+    })
 }
 //Endpoint Schedule Match
 const scheduleMatch = () => {
+    let dataInCache = false;
     if ("caches" in window){
         caches.match(base_url+"matches/?competitions="+id_liga)
         .then(response => {
@@ -122,7 +142,13 @@ const scheduleMatch = () => {
     .then(status)
     .then(json)
     .then(contentSchedule)
-    .catch(showErrorMessage)
+    .catch(error => {
+        if (!navigator.online && !dataInCache) {
+            console.log("Hello")
+            showOfflineMessage();
+        }
+        showErrorMessage(error);
+    })
 }
 //Content Standing
 const contentStanding = responseJSON => {
@@ -256,6 +282,7 @@ const contentSchedule = responseJSON => {
 //Endpoint Get Team by ID
 const getTeam = () => {
     return new Promise((resolve, reject) => {
+        let dataInCache = false;
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
 
@@ -268,6 +295,7 @@ const getTeam = () => {
                         contentTeam(responseJSON)
                         resolve(responseJSON)
                     })
+                    dataInCache = true;
                 }
             })
         }
@@ -282,7 +310,14 @@ const getTeam = () => {
             contentTeam(responseJSON)
             resolve(responseJSON)
         })
-        .catch(showErrorMessage)
+        .catch(error => {
+            if (!navigator.online && !dataInCache) {
+                console.log("Hello")
+                showOfflineMessage();
+                document.querySelector("#save").style.display = "none";
+            }
+            showErrorMessage(error);
+        })
     })
     
 }
@@ -303,11 +338,10 @@ const getSavedTeam = () => {
         //Teams
         let contentElm = "";
         teams.forEach(team => {
-            console.log(team.crestUrl);
             contentElm += `
             <div class="col s6 m3">
                 <div class="card">
-                    <a href="./team.html?id=${team.id}" >
+                    <a href="./team.html?id=${team.id}&saved=true" >
                         <div class="card-image waves-effect waves-block waves-light">
                             <img src="${team.crestUrl}" alt="${team.name}" />
                         </div>
@@ -321,6 +355,12 @@ const getSavedTeam = () => {
         })
         document.querySelector("#fav-team .row").innerHTML = contentElm;
     })
+}
+//Endpoint Get Saved Team By ID
+const getSavedTeamId = (id) => {
+
+    getSavedTeamIdDb(id)
+    .then(contentTeam)
 }
 const contentTeam = responseJSON => {
     console.log(responseJSON)

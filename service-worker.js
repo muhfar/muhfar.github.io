@@ -2,8 +2,12 @@ const CACHE_NAME = "footballLeague-test";
 
 let urlsToCache = [
     "/",
+    "icon-192.png",
+    "icon-512.png",
     "index.html",
     "standing.html",
+    "team.html",
+    "nav.html",
     "manifest.json",
     "service-worker.js",
     "js/main.js",
@@ -15,8 +19,10 @@ let urlsToCache = [
     "js/db.js",
     "css/materialize.min.css",
     "css/material-icons.css",
+    "css/style.css",
     "pages/home.html",
-    "pages/matches.html"
+    "pages/matches.html",
+    "pages/favorite.html",
 ];
 
 self.addEventListener("install", (event) => {
@@ -67,3 +73,26 @@ self.addEventListener("activate", (event) => {
         })
     )
 })
+
+self.addEventListener("push", event => {
+    let body;
+    if (event.data) {
+        body = event.data.text();
+    } else {
+        body = 'Push message no payload';
+    }
+
+    const options = {
+        body: body,
+        icon: 'icon-192.png',
+        vibrate: [100,50,100],
+        data: {
+            dateOfArrival: Date.now(),
+            primaryKey: 1
+        }
+    }
+
+    event.waitUntil(
+        self.registration.showNotification('Push Notification', options)
+    );
+});

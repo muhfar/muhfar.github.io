@@ -25,3 +25,16 @@ const getSavedTeamDb = () => {
         })
     })
 }
+
+const getSavedTeamIdDb = (id) => {
+    return new Promise((resolve, reject) => {
+        dbPromised
+        .then(db => {
+            const tx = db.transaction("team", "readonly").objectStore("team");
+            return tx.get(parseInt(id));
+        })
+        .then(team => {
+            resolve(team);
+        })
+    })
+}
