@@ -10,7 +10,6 @@
 	<link rel="apple-touch-icon" type="image/png" href="icon-192.png">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/material-icons.css">
-    <link rel="stylesheet" href="css/style.css">
     <title>League Footbal</title>
 </head>
 <body>
@@ -34,35 +33,6 @@
         </a>
     </div>
     <script src="js/materialize.min.js"></script>
-    <script src="js/sw.js"></script>
-    <script src="js/api.js"></script>
     <script src="js/idb.js"></script>
-    <script src="js/db.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get("id");
-            const isFromSaved = urlParams.get("saved");
-            const saveBtn = document.querySelector("#save");
-
-            if(isFromSaved){
-                getSavedTeamId(id);
-
-                saveBtn.style.display = "none";
-            } else {
-                const item = getTeam();
-
-                saveBtn.addEventListener("click", () => {
-                    item.then(team => {
-                        console.log(team);
-                        saveForLater(team);
-                        saveBtn.style.display = "none";
-                    })
-                })
-            }
-            
-        })
-    </script>
 </body>
 </html>

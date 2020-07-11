@@ -1,3 +1,5 @@
+import {getCompetitions, scheduleMatch, getSavedTeam} from './api.js';
+
 document.addEventListener("DOMContentLoaded", () => {
     const sidenavElm = document.querySelector(".sidenav");
     let page = window.location.hash.substr(1);

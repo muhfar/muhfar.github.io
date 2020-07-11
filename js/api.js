@@ -1,3 +1,5 @@
+import {getSavedTeamDb, getSavedTeamIdDb} from './db.js';
+
 const base_url = "https://api.football-data.org/v2/";
 const API_KEY = "ab3d341ff5de4bdc82f3527f700a8b2a";
 const id_liga = [
@@ -391,3 +393,5 @@ const contentTeam = responseJSON => {
 
     document.querySelector("#body-content").innerHTML += contentElm;
 }
+
+export {getCompetitions, getStandings, scheduleMatch, getSavedTeam, getSavedTeamId, getTeam};
