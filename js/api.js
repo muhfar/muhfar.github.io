@@ -55,8 +55,6 @@ const loadCompetition = responseJSON => {
                     </div>
                 </div>
             `;
-        } else {
-            console.log(competition.id+" "+competition.name+" Not in the list")
         }
     })
     document.querySelector("#competitions").innerHTML = contentElm;
@@ -84,8 +82,7 @@ const getCompetitions = () => {
     .then(loadCompetition)
     .catch(error => {
         if (!navigator.online && !dataInCache) {
-            console.log("Hello")
-            showOfflineMessage();
+            showOfflineMessage()
         }
         showErrorMessage(error);
     })
@@ -100,9 +97,9 @@ const getStandings = () => {
         caches.match(base_url+"competitions/"+idParam+"/standings")
         .then(response => {
             if (response) {
+                dataInCache = true;
                 json(response)
                 .then(contentStanding)
-                return ;
             }
         })
     }
@@ -116,8 +113,7 @@ const getStandings = () => {
     .then(contentStanding)
     .catch(error => {
         if (!navigator.online && !dataInCache) {
-            console.log("Hello")
-            showOfflineMessage();
+            showOfflineMessage()
         }
         showErrorMessage(error);
     })
@@ -129,6 +125,7 @@ const scheduleMatch = () => {
         caches.match(base_url+"matches/?competitions="+id_liga)
         .then(response => {
             if (response) {
+                dataInCache = true;
                 json(response)
                 .then(contentSchedule)
             }
@@ -144,8 +141,7 @@ const scheduleMatch = () => {
     .then(contentSchedule)
     .catch(error => {
         if (!navigator.online && !dataInCache) {
-            console.log("Hello")
-            showOfflineMessage();
+            showOfflineMessage()
         }
         showErrorMessage(error);
     })
@@ -153,24 +149,29 @@ const scheduleMatch = () => {
 //Content Standing
 const contentStanding = responseJSON => {
     console.log(responseJSON);
-    document.querySelector("#title-page").innerHTML = `
-        <h4>Klasemen ${responseJSON.competition.name}</h4><hr>
+    document.querySelector("#body-content").innerHTML += `
+        <div id="title-page">
+            <h4>Klasemen ${responseJSON.competition.name}</h4><hr>
+        </div>
     `;
 
-    document.querySelector("#info-liga").innerHTML = `
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m6 waves-effect waves-block waves-light">
-                    <img src="assets/${responseJSON.competition.name}.svg" alt="${responseJSON.competition.name}" class="img-logo"/>
-                </div>
-                <div class="col s12 m6">
-                    <p>Tanggal dimulai: ${formatTanggal(responseJSON.season.startDate)}</p>
-                    <p>Tanggal berakhir: ${formatTanggal(responseJSON.season.endDate)}</p>
-                    <p>Pertandingan Hari: ${responseJSON.season.currentMatchday}</p>
-                    <p>Pemenang: ${responseJSON.season.winner ? `${responseJSON.season.winner.name}` : "-"}</p>
+    document.querySelector("#body-content").innerHTML = `
+        <div id="info-liga">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 waves-effect waves-block waves-light">
+                        <img src="assets/${responseJSON.competition.name}.svg" alt="${responseJSON.competition.name}" class="img-logo"/>
+                    </div>
+                    <div class="col s12 m6">
+                        <p>Tanggal dimulai: ${formatTanggal(responseJSON.season.startDate)}</p>
+                        <p>Tanggal berakhir: ${formatTanggal(responseJSON.season.endDate)}</p>
+                        <p>Pertandingan Hari: ${responseJSON.season.currentMatchday}</p>
+                        <p>Pemenang: ${responseJSON.season.winner ? `${responseJSON.season.winner.name}` : "-"}</p>
+                    </div>
                 </div>
             </div>
         </div>
+        <div id="table-standing"></div>
     `;
 
     let groupElm = "";
@@ -312,7 +313,6 @@ const getTeam = () => {
         })
         .catch(error => {
             if (!navigator.online && !dataInCache) {
-                console.log("Hello")
                 showOfflineMessage();
                 document.querySelector("#save").style.display = "none";
             }
@@ -358,32 +358,36 @@ const getSavedTeam = () => {
 }
 //Endpoint Get Saved Team By ID
 const getSavedTeamId = (id) => {
-
     getSavedTeamIdDb(id)
     .then(contentTeam)
 }
 const contentTeam = responseJSON => {
     console.log(responseJSON)
     //Title Page
-    document.querySelector("#title-page").innerHTML = `<h4>Team ${responseJSON.name}<hr></h4>`;
+    document.querySelector("#body-content").innerHTML = `
+    <div id="title-page">
+        <h4>Team ${responseJSON.name}<hr></h4>
+    </div>`;
 
     //Body
     let contentElm = "";
     contentElm = `
-        <div class="row">
-            <div class="col s12 m6 center">
-                <img src="${responseJSON.crestUrl}" alt="${responseJSON.name}" class="img-logo"/>
-            </div>
-            <div class="col s12 m6">
-                <h5>${responseJSON.name}</h5>
-                <p>${responseJSON.founded}, ${responseJSON.area.name}</p>
-                <p>Stadium: ${responseJSON.venue}</p>
-                <p>Email: ${responseJSON.email ? responseJSON.email : "-"}</p>
-                <p>Phone: ${responseJSON.phone ? responseJSON.phone : "-"}</p>
-                <a href="${responseJSON.website}" target="_blank" class="btn-small waves-effect waves-light red darken-2 white-text">Visit Website</a>
+        <div id="info-team">
+            <div class="row">
+                <div class="col s12 m6 center">
+                    <img src="${responseJSON.crestUrl}" alt="${responseJSON.name}" class="img-logo"/>
+                </div>
+                <div class="col s12 m6">
+                    <h5>${responseJSON.name}</h5>
+                    <p>${responseJSON.founded}, ${responseJSON.area.name}</p>
+                    <p>Stadium: ${responseJSON.venue}</p>
+                    <p>Email: ${responseJSON.email ? responseJSON.email : "-"}</p>
+                    <p>Phone: ${responseJSON.phone ? responseJSON.phone : "-"}</p>
+                    <a href="${responseJSON.website}" target="_blank" class="btn-small waves-effect waves-light red darken-2 white-text">Visit Website</a>
+                </div>
             </div>
         </div>
     `;
 
-    document.querySelector("#info-team").innerHTML = contentElm;
+    document.querySelector("#body-content").innerHTML += contentElm;
 }

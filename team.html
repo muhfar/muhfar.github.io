@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The Newest Football that you wanted">
-    <meta name="theme-color" content="#">
-    <!-- <link rel="manifest" href="manifest.json"> -->
+    <meta name="theme-color" content="#E53935">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png" sizes="64x64">
+	<link rel="apple-touch-icon" type="image/png" href="icon-192.png">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/style.css">
@@ -24,10 +26,6 @@
     </nav>
 
     <div class="container" id="body-content">
-        <div id="title-page"></div>
-        <div id="info-team">
-            <div class="container"></div>
-        </div>
     </div>
 
     <div class="fixed-action-btn">
@@ -56,10 +54,10 @@
                 const item = getTeam();
 
                 saveBtn.addEventListener("click", () => {
-                    console.log("Clicked");
                     item.then(team => {
                         console.log(team);
                         saveForLater(team);
+                        saveBtn.style.display = "none";
                     })
                 })
             }

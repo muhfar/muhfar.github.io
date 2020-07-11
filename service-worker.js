@@ -74,7 +74,7 @@ self.addEventListener("activate", (event) => {
     )
 })
 
-self.addEventListener("push", event => {
+self.addEventListener("push", (event) => {
     let body;
     if (event.data) {
         body = event.data.text();
