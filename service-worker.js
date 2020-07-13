@@ -2,6 +2,9 @@ const CACHE_NAME = "footballLeague-test";
 
 let urlsToCache = [
     "/",
+    "main.js",
+    "standing_bundle.js",
+    "team_bundle.js",
     "icon-192.png",
     "icon-512.png",
     "index.html",
@@ -22,6 +25,8 @@ let urlsToCache = [
     "js/team.js",
     "css/materialize.min.css",
     "css/material-icons.css",
+    "css/MaterialIcons-Regular.woff",
+    "css/MaterialIcons-Regular.woff2",
     "css/style.css",
     "pages/home.html",
     "pages/matches.html",

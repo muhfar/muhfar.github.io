@@ -1,3 +1,5 @@
+import * as idb from './idb.js';
+
 const dbPromised = idb.open("leagueFootball", 1, (upgradeDb) => {
     const teamObjStore = upgradeDb.createObjectStore("team", {keyPath: "id"});
     teamObjStore.createIndex("id", "id");
@@ -7,10 +9,20 @@ const saveForLater = team => {
     dbPromised.then(db => {
         const tx = db.transaction("team", "readwrite")
         const store = tx.objectStore("team");
-        store.add(team)
+        store.add(team);
         return tx.complete;
     }) .then(() => {
         console.log("Team berhasil disimpan.")
+    })
+}
+
+const deleteSaveItem = team => {
+    dbPromised.then(db => {
+        const tx = db.transaction("team", "readwrite").objectStore("team");
+        tx.delete(parseInt(team.id));
+        return tx.complete;
+    }) .then(() => {
+        console.log("Team berhasil dihapus.")
     })
 }
 
@@ -39,4 +51,4 @@ const getSavedTeamIdDb = (id) => {
     })
 }
 
-export {getSavedTeamDb, getSavedTeamIdDb, saveForLater};
+export {getSavedTeamDb, getSavedTeamIdDb, saveForLater, deleteSaveItem};

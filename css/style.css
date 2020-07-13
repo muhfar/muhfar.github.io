@@ -40,10 +40,12 @@ div#table-match {
 div#matches {
     word-break: break-word;
 }
-
+.btn-floating.btn-large#delete {
+    display: none;
+}
 @media screen and (max-width: 400px) {
     nav .brand-logo{
-        font-size: 1.5rem;
+        font-size: 1rem;
     }
     .brand-logo img{
         width: 32px;

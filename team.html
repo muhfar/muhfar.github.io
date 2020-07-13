@@ -7,15 +7,17 @@
     <meta name="theme-color" content="#E53935">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon-192.png" sizes="64x64">
-	<link rel="apple-touch-icon" type="image/png" href="icon-192.png">
-    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="apple-touch-icon" type="image/png" href="icon-192.png">
     <link rel="stylesheet" href="css/material-icons.css">
     <title>League Footbal</title>
 </head>
 <body>
     <nav class="red darken-1">
         <div class="nav-wrapper container">
-            <a href="/" class="brand-logo" id="logo-container">League Football</a>
+            <a href="/" class="brand-logo" id="logo-container">
+                <img src="icon-192.png" alt="Logo">
+                League Football
+            </a>
             <a href="./" class="sidenav-trigger"><li class="material-icons">arrow_back</li></a>
 
             <ul class="topnav right hide-on-med-and-down">
@@ -29,10 +31,12 @@
 
     <div class="fixed-action-btn">
         <a class="btn-floating right btn-large waves-effect waves-light red darken-1" id="save">
+            <i class="material-icons">favorite_border</i>
+        </a>
+        <a class="btn-floating right btn-large waves-effect waves-light red darken-1" id="delete">
             <i class="material-icons">favorite</i>
         </a>
     </div>
-    <script src="js/materialize.min.js"></script>
-    <script src="js/idb.js"></script>
+
 </body>
 </html>
