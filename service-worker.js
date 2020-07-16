@@ -31,6 +31,10 @@ let urlsToCache = [
     "pages/home.html",
     "pages/matches.html",
     "pages/favorite.html",
+    "assets/Bundesliga.svg",
+    "assets/FIFA World Cup.svg",
+    "assets/Premier League.svg",
+    "assets/UEFA Champions League.svg",
 ];
 
 self.addEventListener("install", (event) => {

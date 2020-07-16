@@ -44,5 +44,21 @@ module.exports = {
 			chunks: ['team_bundle'],
 			template: "./team.html"
 		}),
+		new htmlWebpackPlugin({
+			filename: "nav.html",
+			template: "./nav.html"
+		}),
+		new htmlWebpackPlugin({
+			filename: "home.html",
+			template: "./pages/home.html"
+		}),
+		new htmlWebpackPlugin({
+			filename: "matches.html",
+			template: "./pages/matches.html"
+		}),
+		new htmlWebpackPlugin({
+			filename: "favorite.html",
+			template: "./pages/favorite.html"
+		}),
 	]
 };
