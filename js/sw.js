@@ -1,4 +1,13 @@
 const publicKey = "BObL1U7K1PUmI2BX3S25LSlIwMubYgMjKbnt9pTHHho9KXlCP1ref1vHqVO-23rYdLvzJknU5qJvx9jathpanOk";
+const registerServiceWorker = () => {
+    return navigator.serviceWorker.register("/service-worker.js")
+    .then(registration => {
+        console.log("Service Worker berhasil ditambahkan!");
+        return registration;
+    }) .catch (err => {
+        console.error("Service Worker gagal ditambahkan!", err);
+    })
+}
 const requestPermission = () => {
     if ("Notification" in window) {
         Notification.requestPermission()
@@ -11,10 +20,6 @@ const requestPermission = () => {
                 return;
             }
 
-            // navigator.serviceWorker.getRegistration()
-            // .then(reg => {
-            //     reg.showNotification("Notifikasi diizinkan");
-            // })
             if ("PushManager" in window) {
                 navigator.serviceWorker.getRegistration()
                 .then(reg => {
@@ -52,15 +57,7 @@ const urlBase64ToUint8Array = base64String => {
     }
     return outputArray;
 }
-const registerServiceWorker = () => {
-    return navigator.serviceWorker.register("/service-worker.js")
-    .then(registration => {
-        console.log("Service Worker berhasil ditambahkan!");
-        return registration;
-    }) .catch (err => {
-        console.error("Service Worker gagal ditambahkan!", err);
-    })
-}
+
 if ("serviceWorker" in navigator) {
     registerServiceWorker();
     requestPermission();
