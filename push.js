@@ -26,4 +26,8 @@ const options = {
     TTL: 60
 }
 
-webPush.sendNotification(pushSubscription, payload, options);
+pushNotification(payload);
+
+const pushNotification = body => {
+    webPush.sendNotification(pushSubscription, body, options);
+}

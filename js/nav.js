@@ -33,7 +33,7 @@ const loadNav = () => {
                 })
             })
         } else {
-            throw " Nav tidak dapat ditemukan!";
+            throw "Nav tidak dapat ditemukan!";
         }
     }) .catch(error => {
         console.log("Error : "+error)
@@ -43,7 +43,7 @@ const loadNav = () => {
 const loadPage = (page) => {
     const contentElm = document.querySelector("#body-content")
     
-    fetch("pages/"+page+".html")
+    fetch(`pages/${page}.html`)
     .then(response => {
         if (response.status === 404) {
             contentElm.innerHTML = "<h5>Halaman tidak dapat diakses!</h5>";

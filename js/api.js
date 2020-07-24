@@ -36,9 +36,18 @@ const showOfflineMessage = () => {
 const showErrorMessage = error => {
     console.log(error);
 }
+const fetchApi = url => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            "X-Auth-Token": API_KEY
+        }
+    }) 
+    .then(status)
+    .then(json)
+}
 //Content Competitions
 const loadCompetition = responseJSON => {
-    console.log(responseJSON.competitions);
     let contentElm = "";
     responseJSON.competitions.forEach(competition => {
         if (id_liga.indexOf(competition.id) !== -1) {
@@ -64,8 +73,9 @@ const loadCompetition = responseJSON => {
 //Endpoint All Competitions
 const getCompetitions = () => {
     let dataInCache = false;
+    let url = `${base_url}competitions/?plan=TIER_ONE`
     if ("caches" in window) {
-        caches.match(base_url+"competitions/?plan=TIER_ONE")
+        caches.match(url)
         .then(response => {
             if (response) {
                 dataInCache = true;
@@ -75,12 +85,7 @@ const getCompetitions = () => {
         })
     }
 
-    fetch(base_url+"competitions/?plan=TIER_ONE", {
-        method: 'GET',
-        headers: {"X-Auth-Token": API_KEY}
-    }) 
-    .then(status)
-    .then(json)
+    fetchApi(url)
     .then(loadCompetition)
     .catch(error => {
         if (!navigator.online && !dataInCache) {
@@ -94,9 +99,10 @@ const getStandings = () => {
     let dataInCache = false;
     const urlParams = new URLSearchParams(window.location.search);
     const idParam = urlParams.get("id");
+    let url = `${base_url}competitions/${idParam}/standings`;
 
     if ("caches" in window){
-        caches.match(base_url+"competitions/"+idParam+"/standings")
+        caches.match(url)
         .then(response => {
             if (response) {
                 dataInCache = true;
@@ -106,25 +112,24 @@ const getStandings = () => {
         })
     }
 
-    fetch(base_url+"competitions/"+idParam+"/standings", {
-        method: 'GET',
-        headers: {"X-Auth-Token": API_KEY}
-    }) 
-    .then(status)
-    .then(json)
+    fetchApi(url)
     .then(contentStanding)
     .catch(error => {
         if (!navigator.online && !dataInCache) {
             showOfflineMessage()
+        } else {
+            showErrorMessage(error);
         }
-        showErrorMessage(error);
+        
     })
 }
 //Endpoint Schedule Match
 const scheduleMatch = () => {
     let dataInCache = false;
+    let url = `${base_url}matches/?competitions=${id_liga}`;
+
     if ("caches" in window){
-        caches.match(base_url+"matches/?competitions="+id_liga)
+        caches.match(url)
         .then(response => {
             if (response) {
                 dataInCache = true;
@@ -134,12 +139,7 @@ const scheduleMatch = () => {
         })
     }
 
-    fetch(base_url+"matches/?competitions="+id_liga, {
-        method: 'GET',
-        headers: {"X-Auth-Token": API_KEY}
-    }) 
-    .then(status)
-    .then(json)
+    fetchApi(url)
     .then(contentSchedule)
     .catch(error => {
         if (!navigator.online && !dataInCache) {
@@ -150,7 +150,6 @@ const scheduleMatch = () => {
 }
 //Content Standing
 const contentStanding = responseJSON => {
-    console.log(responseJSON);
     document.querySelector("#body-content").innerHTML += `
         <div id="title-page">
             <h4>Klasemen ${responseJSON.competition.name}</h4><hr>
@@ -272,7 +271,7 @@ const contentMatch = (responseJSON, id_liga) => {
 const contentSchedule = responseJSON => {
     let contentLiga = "";
     let contentElm = "";
-    console.log(responseJSON);
+
     id_liga.forEach(liga_id => {
         contentLiga = contentInfoLiga(responseJSON, liga_id);
         if (contentLiga){
@@ -288,9 +287,10 @@ const getTeam = () => {
         let dataInCache = false;
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
+        let url = `${base_url}teams/${idParam}`;
 
         if ("caches" in window){
-            caches.match(base_url+"teams/"+idParam)
+            caches.match(url)
             .then(response => {
                 if (response) {
                     json(response)
@@ -303,12 +303,7 @@ const getTeam = () => {
             })
         }
 
-        fetch(base_url+"teams/"+idParam, {
-            method: 'GET',
-            headers: {"X-Auth-Token": API_KEY}
-        }) 
-        .then(status)
-        .then(json)
+        fetchApi(url)
         .then(responseJSON => {
             contentTeam(responseJSON)
             resolve(responseJSON)
@@ -327,7 +322,8 @@ const getTeam = () => {
 const getSavedTeam = () => {
     getSavedTeamDb()
     .then(teams => {
-        console.log(teams);
+        let contentElm = "";
+
         //Title Page
         let titleElm = `
             <div id="title-page">
@@ -337,24 +333,32 @@ const getSavedTeam = () => {
             <div class="row"></div>
         `;
         document.querySelector("#fav-team").innerHTML = titleElm;
-        //Teams
-        let contentElm = "";
-        teams.forEach(team => {
-            contentElm += `
-            <div class="col s6 m3">
-                <div class="card">
-                    <a href="./team.html?id=${team.id}&saved=true" >
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img src="${team.crestUrl}" alt="${team.name}" />
+
+        if (teams.length !== 0){
+            //Teams
+            teams.forEach(team => {
+                contentElm += `
+                <div class="col s6 m3">
+                    <div class="card">
+                        <a href="./team.html?id=${team.id}&saved=true" >
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img src="${team.crestUrl}" alt="${team.name}" />
+                            </div>
+                        </a>
+                        <div class="card-content">
+                            <span class="card-title">${team.shortName}</span>
                         </div>
-                    </a>
-                    <div class="card-content">
-                        <span class="card-title">${team.shortName}</span>
                     </div>
                 </div>
-            </div>
+                `;
+            })
+        } else {
+            contentElm += `
+                <div class="col-sm-12">
+                    <h5>Tidak ada team yang tersimpan.</h5>
+                </div>
             `;
-        })
+        }
         document.querySelector("#fav-team .row").innerHTML = contentElm;
     })
 }
@@ -364,7 +368,6 @@ const getSavedTeamId = (id) => {
     .then(contentTeam)
 }
 const contentTeam = responseJSON => {
-    console.log(responseJSON)
     //Title Page
     document.querySelector("#body-content").innerHTML = `
     <div id="title-page">

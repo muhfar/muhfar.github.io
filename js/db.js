@@ -12,6 +12,12 @@ const saveForLater = team => {
         store.add(team);
         return tx.complete;
     }) .then(() => {
+        if( Notification.permission === "granted") {
+            navigator.serviceWorker.getRegistration()
+            .then(reg => {
+                reg.showNotification("League Football", {'body':`${team.name} berhasil disimpan.`})
+            })
+        }
         console.log("Team berhasil disimpan.")
     })
 }
@@ -22,6 +28,12 @@ const deleteSaveItem = team => {
         tx.delete(parseInt(team.id));
         return tx.complete;
     }) .then(() => {
+        if( Notification.permission === "granted") {
+            navigator.serviceWorker.getRegistration()
+            .then(reg => {
+                reg.showNotification("League Football", {'body':`${team.name} berhasil dihapus.`})
+            })
+        }
         console.log("Team berhasil dihapus.")
     })
 }

@@ -1,4 +1,5 @@
 const publicKey = "BObL1U7K1PUmI2BX3S25LSlIwMubYgMjKbnt9pTHHho9KXlCP1ref1vHqVO-23rYdLvzJknU5qJvx9jathpanOk";
+
 const registerServiceWorker = () => {
     return navigator.serviceWorker.register("/service-worker.js")
     .then(registration => {
@@ -28,7 +29,6 @@ const requestPermission = () => {
                         applicationServerKey: urlBase64ToUint8Array(publicKey)
                     })
                     .then(subscribe => {
-                        console.log(subscribe);
                         console.log("Berhasil subscribe dengan endpoint: ", subscribe.endpoint);
                         console.log('Berhasil melakukan subscribe dengan p256dh key: ', btoa(String.fromCharCode.apply(
                             null, new Uint8Array(subscribe.getKey('p256dh')))));
@@ -38,7 +38,6 @@ const requestPermission = () => {
                         console.error("Tidak dapat melakukan subscribe: ", err.message);
                     })
                 })
-                
             }
         })
     } else {
@@ -60,7 +59,9 @@ const urlBase64ToUint8Array = base64String => {
 
 if ("serviceWorker" in navigator) {
     registerServiceWorker();
-    requestPermission();
+    navigator.serviceWorker.ready.then( () => {
+        requestPermission();
+    })
 } else {
     alert("Service Worker tidak didukung browser ini!");
     console.log("Service Worker tidak didukung browser ini!");

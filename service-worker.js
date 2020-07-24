@@ -1,6 +1,6 @@
-const CACHE_NAME = "footballLeague-test";
+const CACHE_NAME = "footballLeague-v4";
 
-let urlsToCache = [
+const urlsToCache = [
     "/",
     "main.js",
     "standing_bundle.js",
