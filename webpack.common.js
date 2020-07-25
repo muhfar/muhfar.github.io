@@ -87,8 +87,7 @@ module.exports = {
 			template: "./pages/favorite.html"
 		}),
 		new workboxPlugin.InjectManifest({
-			swSrc: './src/workbox-sw.js',
-			compileSrc: 'false'
+			swSrc: './src/workbox-sw.js'
 		}),
 		new copyPlugin({
 			patterns: [

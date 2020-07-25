@@ -259,7 +259,7 @@ const contentMatch = (responseJSON, id_liga) => {
                 </div>
                 <div class="col s4 awayTeam">
                     <h5>${match.awayTeam.name}</h5>
-                    <h4>${match.score.fullTime.awayTeam ? match.score.fullTime.awayTeam : 0}</h4>
+                    <h4>${match.score.fullTime.awayTeam ? match.score.fullTime.awayTeam : "0"}</h4>
                 </div>
             </div>
             `;
@@ -272,13 +272,19 @@ const contentSchedule = responseJSON => {
     let contentLiga = "";
     let contentElm = "";
 
-    id_liga.forEach(liga_id => {
-        contentLiga = contentInfoLiga(responseJSON, liga_id);
-        if (contentLiga){
-            contentElm += contentLiga;
-            contentElm += contentMatch(responseJSON, liga_id);
-        }
-    })
+    console.log(responseJSON);
+    if (responseJSON.count !== 0) {
+        id_liga.forEach(liga_id => {
+                contentLiga = contentInfoLiga(responseJSON, liga_id);
+                if (contentLiga){
+                    contentElm += contentLiga;
+                    contentElm += contentMatch(responseJSON, liga_id);
+                }
+            })
+    } else {
+        contentElm += '<h5>Tidak ada jadwal pertandingan hari ini</h5>';
+    }
+    
     document.querySelector("#matches").innerHTML = contentElm;
 }
 //Endpoint Get Team by ID
