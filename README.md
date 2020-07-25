@@ -1,4 +1,4 @@
 # PWA-Football
- Dicoding PWA Subs 2
+ Dicoding PWA Football-data API
 # https://muhfar.github.io/dist
 # https://league-football.web.app/
