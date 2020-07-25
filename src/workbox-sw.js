@@ -47,7 +47,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
 	/^https:\/\/api\.football-data\.org\/v2\//,
-	new workbox.strategies.CacheFirst({
+	new workbox.strategies.StaleWhileRevalidate({
 		cacheName: 'football-data',
 		plugins: [
 			new workbox.cacheableResponse.CacheableResponsePlugin({
