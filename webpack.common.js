@@ -6,9 +6,9 @@ const copyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry: {
-        main:'./index.js',
-        standing_bundle: './standing-bundle.js',
-        team_bundle: './team-bundle.js'
+        main:'./src/index.js',
+        standing_bundle: './src/standing-bundle.js',
+        team_bundle: './src/team-bundle.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -52,24 +52,24 @@ module.exports = {
 			filename: "index.html",
 			inject: true,
 			chunks: ['main'],
-			template: "./index.html"
+			template: "./src/index.html"
         }),
         new htmlWebpackPlugin({
 			filename: "standing.html",
 			inject: true,
 			chunks: ['standing_bundle'],
-			template: "./standing.html"
+			template: "./src/standing.html"
         }),
         new htmlWebpackPlugin({
 			filename: "team.html",
 			inject: true,
 			chunks: ['team_bundle'],
-			template: "./team.html"
+			template: "./src/team.html"
 		}),
 		new htmlWebpackPlugin({
 			filename: "nav.html",
 			inject: false,
-			template: "./nav.html"
+			template: "./src/nav.html"
 		}),
 		new htmlWebpackPlugin({
 			filename: "./pages/home.html",
@@ -87,12 +87,13 @@ module.exports = {
 			template: "./pages/favorite.html"
 		}),
 		new workboxPlugin.InjectManifest({
-			swSrc: './service-worker.js',
+			swSrc: './src/workbox-sw.js',
+			compileSrc: 'false'
 		}),
 		new copyPlugin({
 			patterns: [
 				{
-					from: "manifest.json",
+					from: "./src/manifest.json",
 				}
 			]
 		})

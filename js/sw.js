@@ -1,7 +1,7 @@
 const publicKey = "BObL1U7K1PUmI2BX3S25LSlIwMubYgMjKbnt9pTHHho9KXlCP1ref1vHqVO-23rYdLvzJknU5qJvx9jathpanOk";
 
 const registerServiceWorker = () => {
-    return navigator.serviceWorker.register("/service-worker.js")
+    return navigator.serviceWorker.register("workbox-sw.js")
     .then(registration => {
         console.log("Service Worker berhasil ditambahkan!");
         return registration;

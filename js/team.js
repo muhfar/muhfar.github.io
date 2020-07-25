@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const delBtn = document.querySelector("#delete");
 
     getSavedTeamIdDb(id).then(team => {
-        console.log(team)
         if(team){
             getSavedTeamId(id);
             saveBtn.style.display = "none";
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveBtn.addEventListener("click", () => {
         const item = getTeam();
         item.then(team => {
-            console.log(team);
             saveForLater(team);
             saveBtn.style.display = "none";
             delBtn.style.display = "block";
@@ -34,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     delBtn.addEventListener("click", () => {
         const item = getTeam();
-        console.log("Delete item");
         item.then(team => {
             deleteSaveItem(team)
             saveBtn.style.display = "block";
