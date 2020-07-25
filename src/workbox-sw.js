@@ -1,8 +1,12 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.3/workbox-sw.js');
 
 workbox.core.setCacheNameDetails({
-	prefix: 'leaguefootball'
+	prefix: 'leaguefootball',
+	suffix: 'v5',
+	precache: 'precache',
 })
+
+skipWaiting();
 
 workbox.precaching.precacheAndRoute(
 	self.__WB_MANIFEST, {
