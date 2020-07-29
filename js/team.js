@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 document.querySelectorAll("a.sidenav-trigger, .topnav a").forEach( btnElm => {
-    console.log(btnElm)
     btnElm.addEventListener("click", () => {
         window.history.back();
     })
