@@ -1,4 +1,5 @@
 import * as idb from './idb.js';
+import {pushNotif} from './push.js';
 
 const dbPromised = idb.open("leagueFootball", 1, (upgradeDb) => {
     const teamObjStore = upgradeDb.createObjectStore("team", {keyPath: "id"});
@@ -9,16 +10,13 @@ const saveForLater = team => {
     dbPromised.then(db => {
         const tx = db.transaction("team", "readwrite")
         const store = tx.objectStore("team");
-        store.add(team);
+        store.put(team);
         return tx.complete;
     }) .then(() => {
-        if( Notification.permission === "granted") {
-            navigator.serviceWorker.getRegistration()
-            .then(reg => {
-                reg.showNotification("League Football", {'body':`${team.name} berhasil disimpan.`})
-            })
-        }
+        pushNotif(`${team.name} berhasil disimpan.`);
         console.log("Team berhasil disimpan.")
+    }) .catch(error => {
+        console.error("IDB Put error: ", error)
     })
 }
 
@@ -28,13 +26,10 @@ const deleteSaveItem = team => {
         tx.delete(parseInt(team.id));
         return tx.complete;
     }) .then(() => {
-        if( Notification.permission === "granted") {
-            navigator.serviceWorker.getRegistration()
-            .then(reg => {
-                reg.showNotification("League Football", {'body':`${team.name} berhasil dihapus.`})
-            })
-        }
+        pushNotif(`${team.name} berhasil dihapus.`)
         console.log("Team berhasil dihapus.")
+    }) .catch(error => {
+        console.error("IDB Delete error: ", error)
     })
 }
 

@@ -344,9 +344,9 @@ const getSavedTeam = () => {
             //Teams
             teams.forEach(team => {
                 contentElm += `
-                <div class="col s6 m3">
+                <div class="col s6 m4">
                     <div class="card">
-                        <a href="./team.html?id=${team.id}&saved=true" >
+                        <a href="./team.html?id=${team.id}" >
                             <div class="card-image waves-effect waves-block waves-light">
                                 <img src="${team.crestUrl}" alt="${team.name}" />
                             </div>

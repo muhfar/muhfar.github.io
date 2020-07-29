@@ -2,7 +2,7 @@ const path = require("path");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const workboxPlugin = require("workbox-webpack-plugin");
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
-const copyPlugin = require("copy-webpack-plugin");
+const webpackManifest = require("webpack-pwa-manifest");
 
 module.exports = {
 	entry: {
@@ -89,12 +89,27 @@ module.exports = {
 		new workboxPlugin.InjectManifest({
 			swSrc: './src/workbox-sw.js'
 		}),
-		new copyPlugin({
-			patterns: [
+		new webpackManifest({
+			name: "League Football",
+			short_name: "League FB",
+			description: "PWA Football API",
+			theme_color: "#e53935",
+			background_color: "#ffffff",
+			display: "standalone",
+			orientation: "landscape",
+			Scope: "/",
+			start_url: "/index.html",
+			gcm_sender_id: "665437612559",
+			icons: [
 				{
-					from: "./src/manifest.json",
+					src: path.resolve('assets/icon.png'),
+					sizes: [72, 96, 128, 144, 152, 192, 384, 512],
+					destination: 'assets',
 				}
-			]
+			],
+			ios: true,
+			fingerprints: false,
+
 		})
 	]
 };

@@ -5,7 +5,6 @@ import {saveForLater, deleteSaveItem, getSavedTeamIdDb} from './db.js';
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
-    const isFromSaved = urlParams.get("saved");
     const saveBtn = document.querySelector("#save");
     const delBtn = document.querySelector("#delete");
 
@@ -38,6 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
             delBtn.style.display = "none";
         })
     })
-    
-    
+})
+
+document.querySelectorAll("a.sidenav-trigger, .topnav a").forEach( btnElm => {
+    console.log(btnElm)
+    btnElm.addEventListener("click", () => {
+        window.history.back();
+    })
 })
