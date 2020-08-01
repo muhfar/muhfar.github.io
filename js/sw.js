@@ -1,4 +1,4 @@
-const publicKey = "BObL1U7K1PUmI2BX3S25LSlIwMubYgMjKbnt9pTHHho9KXlCP1ref1vHqVO-23rYdLvzJknU5qJvx9jathpanOk";
+const publicKey = "BPiOrpFsmjYWD_L3B_iQHnK181oczFyX4XQGU3-BxfQdTnLKlo0y3xuDjYyWAu7FgbosepdqneHnesGDjgl-618";
 
 const registerServiceWorker = () => {
     return navigator.serviceWorker.register("workbox-sw.js")

@@ -1,5 +1,5 @@
 import * as idb from './idb.js';
-import {pushNotif} from './push.js';
+import {pushNotif} from './api.js';
 
 const dbPromised = idb.open("leagueFootball", 1, (upgradeDb) => {
     const teamObjStore = upgradeDb.createObjectStore("team", {keyPath: "id"});

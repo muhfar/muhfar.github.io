@@ -1,0 +1,2 @@
+GH: https://muhfar.github.io/dist
+FH: https://league-football.web.app/
